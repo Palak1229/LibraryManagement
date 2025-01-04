@@ -9,24 +9,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.library.management.dao.AuthorDao;
 import com.library.management.dao.BookDao;
 import com.library.management.dto.ResponseStructure;
 import com.library.management.entity.Author;
 import com.library.management.entity.Book;
 import com.library.management.repository.BookRepo;
-
 @Service
 public class BookService {
+	
 	@Autowired
 	private BookDao bookdao;
 	
+	@Autowired
+	private AuthorDao authordao;
+	
 	public ResponseEntity<ResponseStructure<Book>> saveBookData( Book book) {
         Book saved = bookdao.saveBook(book);
+        
+        int authid=saved.getAuthor().getId();
+        Author author=authordao.getAuthorById(authid);
+        saved.setAuthor(author);
         ResponseStructure<Book> structure = new ResponseStructure<>();
         structure.setStatusCode(HttpStatus.CREATED.value());
         structure.setMessage("Book saved");
         structure.setData(saved);
 
+        
         return new ResponseEntity<>(structure, HttpStatus.CREATED);
     }
 

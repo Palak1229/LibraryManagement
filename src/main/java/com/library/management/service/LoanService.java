@@ -9,21 +9,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.library.management.dao.BookDao;
 import com.library.management.dao.LoanDao;
+import com.library.management.dao.MemberDao;
 import com.library.management.dto.ResponseStructure;
+import com.library.management.entity.Author;
+import com.library.management.entity.Book;
 import com.library.management.entity.Loan;
+import com.library.management.entity.Member;
 
 @Service
 public class LoanService {
 	@Autowired 
 	private LoanDao loandao;
+	@Autowired
+	private BookDao bookDao;
+	@Autowired
+	private MemberDao memberdao;
 	
 	public ResponseEntity<ResponseStructure<Loan>> saveLoanData( Loan loan) {
-        Loan saved = loandao.saveLoan(loan);
+        Loan updatedLoan = loandao.saveLoan(loan);
+        int bookid=updatedLoan.getBook().getId();
+        Book book =bookDao.getBookById(bookid);
+        updatedLoan.setBook(book);
+        
+        int memid=updatedLoan.getMember().getId();
+        Member member=memberdao.getMemberById(memid);
+        updatedLoan.setMember(member);
+        
         ResponseStructure<Loan> structure = new ResponseStructure<>();
         structure.setStatusCode(HttpStatus.CREATED.value());
-        structure.setMessage("Loan saved");
-        structure.setData(saved);
+        structure.setMessage("Loan updatedLoan");
+        structure.setData(updatedLoan);
 
         return new ResponseEntity<>(structure, HttpStatus.CREATED);
     }

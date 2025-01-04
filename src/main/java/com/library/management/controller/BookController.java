@@ -3,7 +3,6 @@ package com.library.management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,7 @@ import com.library.management.service.BookService;
 @RestController
 @RequestMapping("/book")
 public class BookController {
+	
 	@Autowired
 	private BookService bookservice ; 
 	
@@ -43,7 +43,7 @@ public class BookController {
     public ResponseEntity<ResponseStructure<List<Book>>> getAuthorByGenre(@PathVariable String genre) {
         return bookservice.getBookByGenre(genre);
     }
-   @PutMapping("/update")
+   @PutMapping("/update/{id}")
    public ResponseEntity<ResponseStructure<Book>> updateABookEntity(@RequestBody Book book, @PathVariable int id){
 	   return bookservice.updateBook(book, id);
    }

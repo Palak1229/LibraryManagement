@@ -37,9 +37,9 @@ public class MemberDao {
 		Optional<Member>Member=memberrepo.findById(id);
 		if(Member.isPresent()) {
 			Member updatedMember=Member.get();
-			updatedMember.setName(member.getName());
-			updatedMember.setPhnno(member.getPhnno());
-			updatedMember.setEmail(member.getEmail());
+			if(member.getName()!=null) updatedMember.setName(member.getName());
+			if(member.getPhnno()!=0) updatedMember.setPhnno(member.getPhnno());
+			if(member.getEmail()!=null) updatedMember.setEmail(member.getEmail());
 			memberrepo.save(updatedMember);
 			return updatedMember;
 		}

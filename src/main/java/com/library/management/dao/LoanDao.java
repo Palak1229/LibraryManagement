@@ -8,13 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.library.management.entity.Loan;
+import com.library.management.repository.BookRepo;
 import com.library.management.repository.LoanRepo;
+import com.library.management.repository.MemberRepo;
 
 @Repository
 public class LoanDao {
 	@Autowired
 	private LoanRepo loanrepo;
 	
+	@Autowired
+	private BookRepo bookrepo;
+	
+	@Autowired
+	private MemberRepo memberrepo;
 	public Loan saveLoan(Loan loan) {
 		return loanrepo.save(loan);
 	}
@@ -37,10 +44,10 @@ public class LoanDao {
 		Optional<Loan>Loan=loanrepo.findById(id);
 		if(Loan.isPresent()) {
 			Loan updatedLoan=Loan.get();
-			updatedLoan.setLoandate(loan.getLoandate());
-			updatedLoan.setReturndate(loan.getReturndate());
-			updatedLoan.setBook(loan.getBook());
-			updatedLoan.setMember(loan.getMember());
+			if(loan.getLoandate()!=null) updatedLoan.setLoandate(loan.getLoandate());
+			if(loan.getReturndate()!=null) updatedLoan.setReturndate(loan.getReturndate());
+			if(loan.getBook()!=null) updatedLoan.setBook(loan.getBook());
+			if(loan.getMember()!=null) updatedLoan.setMember(loan.getMember());
 			loanrepo.save(updatedLoan);
 			return updatedLoan;
 		}

@@ -11,6 +11,7 @@ import com.library.management.repository.BookRepo;
 
 @Repository
 public class BookDao {
+	
  @Autowired
  private BookRepo bookrepo;
 	public Book saveBook(Book book) {
@@ -45,9 +46,9 @@ public class BookDao {
 		Optional<Book>Book=bookrepo.findById(id);
 		if(Book.isPresent()) {
 			Book updatedBook=Book.get();
-			updatedBook.setGenre(book.getGenre());
-			updatedBook.setAuthor(book.getAuthor());
-			updatedBook.setTitle(book.getTitle());
+			if(book.getGenre()!=null) updatedBook.setGenre(book.getGenre());
+			if(book.getAuthor()!=null) updatedBook.setAuthor(book.getAuthor());
+			if(book.getTitle()!=null)updatedBook.setTitle(book.getTitle());
 			bookrepo.save(updatedBook);
 			return updatedBook;
 		}

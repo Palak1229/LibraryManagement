@@ -37,7 +37,7 @@ public class AuthorDao {
 		Optional<Author>Author=authorRepo.findById(id);
 		if(Author.isPresent()) {
 			Author updatedAuthor=Author.get();
-			updatedAuthor.setName(author.getName());
+			if(author.getName()!=null) updatedAuthor.setName(author.getName());
 			authorRepo.save(updatedAuthor);
 			return updatedAuthor;
 		}

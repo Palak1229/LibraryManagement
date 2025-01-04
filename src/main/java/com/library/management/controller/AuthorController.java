@@ -45,7 +45,7 @@ public class AuthorController {
 	        return authorService.getAuthorById(id);
 	    }
 
-	   @PutMapping("/update")
+	   @PutMapping("/update/{id}")
 	   public ResponseEntity<ResponseStructure<Author>> updateAuthorEntity(@RequestBody Author author , @PathVariable int id){
 		   return authorService.updateAuthor(author, id);
 	   }
